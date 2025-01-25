@@ -4,14 +4,15 @@ import { cors } from "@elysiajs/cors";
 import { UseController } from "./controllers/UseController";
 
 const app = new Elysia()
-.use(jwt({
-  name: "jwt",
-  secret: "secret",
-}))
-.use(cors())
-.get("/", () => "Hello Elysia")
-.post("/api/user/signin", UseController.signIn)
-.listen(3001);
+  .use(jwt({
+    name: "jwt",
+    secret: "secret",
+  }))
+  .use(cors())
+  .get("/", () => "Hello Elysia")
+  .post("/api/user/signin", UseController.signIn)
+  .put("/api/user/update", UseController.update)
+  .listen(3001);
 
 console.log(
   `🦊 Elysia is running at ${app.server?.hostname}:${app.server?.port}`
