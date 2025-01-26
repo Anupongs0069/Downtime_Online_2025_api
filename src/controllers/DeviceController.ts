@@ -6,7 +6,7 @@ export const DeviceController = {
         body: {
             name: string;
             product: string;
-            serial: string;
+            family: string;
             importDate: Date;
             remark: string;
         }
@@ -41,7 +41,7 @@ export const DeviceController = {
         body: {
             name: string;
             product: string;
-            serial: string;
+            family: string;
             importDate: Date;
             remark: string;
         },

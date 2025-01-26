@@ -17,18 +17,62 @@ model User {
   id        Int      @id() @default(autoincrement())
   username  String   @unique
   password  String
-  level     String   @default("user") // user, admin
+  level     String   @default("user") // user, admin, engineer, leader
   createdAt DateTime @default(now())
   status    String   @default("active") // active, inactive
+  sectionId Int?
+  section   Section?  @relation(fields: [sectionId], references: [id])
+  RepairRecord RepairRecord[]
 }
 
 model Device {
   id         Int      @id @default(autoincrement())
   name       String   @unique
   product    String
-  serial     String   @unique
+  family     String   
   importDate DateTime
   remark     String?
   status     String   @default("active") // active, inactive
   createdAt  DateTime @default(now())
+  RepairRecord RepairRecord[]
+}
+
+// แผนก
+model Department {
+  id        Int       @id @default(autoincrement())
+  name      String
+  status    String    @default("active") // active, inactive
+  createdAt DateTime  @default(now())
+  sections  Section[]
+}
+
+// ฝ่าย
+model Section {
+  id           Int        @id @default(autoincrement())
+  name         String
+  departmentId Int
+  department   Department @relation(fields: [departmentId], references: [id])
+  status       String     @default("active") // active, inactive
+  createdAt    DateTime   @default(now())
+  users        User[]
+}
+
+model RepairRecord {
+  id                Int       @id @default(autoincrement())
+  customerName      String
+  deviceName        String
+  deviceProduct     String
+  deviceFamily      String
+  problem           String
+  solving           String
+  deviceId          Int?
+  device            Device?   @relation(fields: [deviceId], references: [id])
+  userId            Int?
+  user              User?     @relation(fields: [userId], references: [id])
+  engineerId        Int?
+  status            String    @default("active") // active, inactive
+  createdAt         DateTime  @default(now())
+  endJobDate        DateTime?
+  imageBeforeRepair String?
+  imageAfterRepair  String?
 }
