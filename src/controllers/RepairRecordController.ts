@@ -43,6 +43,47 @@ export const RepairRecordController = {
         } catch (error) {
             return error;
         }
+    },
+    update: async ({ body, params }: {
+        body: {
+            customerName: string;
+            deviceName: string;
+            deviceId?: number;
+            deviceProduct: string;
+            deviceFamily: string;
+            problem: string;
+            sovle?: string;
+        },
+        params: {
+            id: string;
+        }
+    }) => {
+        try {
+            await prisma.repairRecord.update({
+                where: { id: parseInt(params.id) },
+                data: body
+            });
+
+            return { message: "success" };
+        } catch (error) {
+            return error;
+        }
+    },
+    remove: async ({ params }: {
+        params: {
+            id: string;
+        }
+    }) => {
+        try {
+            await prisma.repairRecord.update({
+                where: { id: parseInt(params.id) },
+                data: { status: 'inactive' }
+            });
+
+            return { message: "success" };
+        } catch (error) {
+            return error;
+        }
     }
 
 }

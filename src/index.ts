@@ -51,8 +51,8 @@ const app = new Elysia()
   //
   .get("/api/repair_record/list", RepairRecordController.list)
   .post("/api/repair_record/create", RepairRecordController.create)
-  // .put("/api/repairRecord/update/:id", RepairRecordController.update)
-  // .delete("/api/repairRecord/remove/:id", RepairRecordController.remove)
+  .put("/api/repair_record/update/:id", RepairRecordController.update)
+  .delete("/api/repair_record/remove/:id", RepairRecordController.remove)
   // .put("/api/repairRecord/updateStatus/:id", RepairRecordController.upateStatus)
   // .put("/api/repairRecord/receive", RepairRecordController.receive)
   // .get('/api/income/report/:startDate/:endDate', RepairRecordController.report) // API แสดงรายรับตามช่วงวันที่
