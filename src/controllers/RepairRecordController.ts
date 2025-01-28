@@ -5,9 +5,6 @@ export const RepairRecordController = {
     list: async () => {
         try {
             const repairRecords = await prisma.repairRecord.findMany({
-                where: {
-                    status: 'active'
-                },
                 include: {
                     device: true,
                     user: true
@@ -16,7 +13,25 @@ export const RepairRecordController = {
                     id: 'desc'
                 }
             });
-            return repairRecords;
+
+            // ตรวจสอบว่ามี engineerId มีค่าไหม ถ้ามีค่าให้หา username ของ engineer มาเพิ่มใน list
+            let list = [];
+            for (const repairRecord of repairRecords) {
+                if (repairRecord.engineerId) {
+                    const engineer = await prisma.user.findUnique({
+                        select: {
+                            username: true,
+                        },
+                        where: { id: repairRecord.engineerId }
+                    });
+                    
+                    list.push({ ...repairRecord, engineer });
+                } else {
+                    list.push(repairRecord);
+                }
+                
+            }
+            return list;
         } catch (error) {
             return error;
         }
@@ -29,7 +44,7 @@ export const RepairRecordController = {
         deviceProduct: string;
         deviceFamily: string;
         problem: string;
-        sovle?: string;
+        solving?: string;
         },
         request: any,
         jwt: any
@@ -52,7 +67,7 @@ export const RepairRecordController = {
             deviceProduct: string;
             deviceFamily: string;
             problem: string;
-            sovle?: string;
+            solving?: string;
         },
         params: {
             id: string;
@@ -84,6 +99,51 @@ export const RepairRecordController = {
         } catch (error) {
             return error;
         }
+    }, 
+    updateStatus: async ({ body, params }: {
+        body: {
+            status: string;
+            solving: string;
+            engineerId: number;
+        },
+        params: {
+            id: string
+        }
+    }) => {
+        try {
+            await prisma.repairRecord.update({
+                where: {
+                    id: parseInt(params.id)
+                },
+                data: body
+            });
+
+            return { message: "success" };
+        } catch (error) {
+            return error;
+        }
+    },
+    receive: async ({ body }: {
+        body: {
+            id: number;
+        }
+    }) =>{
+        try {
+            await prisma.repairRecord.update({
+                where: {
+                    id: body.id
+                },
+                data: {
+                    status: "success"
+                }
+            }) 
+            
+            return { message: "success"}
+
+        } catch (error) {
+            return error;
+        }
     }
+
 
 }

@@ -38,8 +38,8 @@ const app = new Elysia()
   .post("/api/user/create", UserController.create)
   .put("/api/user/updateUser/:id", UserController.updateUser)
   .delete("/api/user/remove/:id", UserController.remove)
-  // .get("/api/user/listEngineer", UserController.listEngineer)
-  // .get("/api/user/level", UserController.level)
+  .get("/api/user/listEngineer", UserController.listEngineer)
+  .get("/api/user/level", UserController.level)
   // //
   // company
   //
@@ -49,12 +49,12 @@ const app = new Elysia()
   //
   // repair record
   //
-  .get("/api/repair_record/list", RepairRecordController.list)
-  .post("/api/repair_record/create", RepairRecordController.create)
-  .put("/api/repair_record/update/:id", RepairRecordController.update)
-  .delete("/api/repair_record/remove/:id", RepairRecordController.remove)
-  // .put("/api/repairRecord/updateStatus/:id", RepairRecordController.upateStatus)
-  // .put("/api/repairRecord/receive", RepairRecordController.receive)
+  .get("/api/repairRecord/list", RepairRecordController.list)
+  .post("/api/repairRecord/create", RepairRecordController.create)
+  .put("/api/repairRecord/update/:id", RepairRecordController.update)
+  .delete("/api/repairRecord/remove/:id", RepairRecordController.remove)
+  .put("/api/repairRecord/updateStatus/:id", RepairRecordController.updateStatus)
+  .put("/api/repairRecord/receive", RepairRecordController.receive)
   // .get('/api/income/report/:startDate/:endDate', RepairRecordController.report) // API แสดงรายรับตามช่วงวันที่
   // .get('/api/repairRecord/dashboard', RepairRecordController.dashboard)
   // .get('/api/repairRecord/incomePerMonth', RepairRecordController.incomePerMonth)
