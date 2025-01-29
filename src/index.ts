@@ -55,8 +55,8 @@ const app = new Elysia()
   .delete("/api/repairRecord/remove/:id", RepairRecordController.remove)
   .put("/api/repairRecord/updateStatus/:id", RepairRecordController.updateStatus)
   .put("/api/repairRecord/receive", RepairRecordController.receive)
-  // .get('/api/income/report/:startDate/:endDate', RepairRecordController.report) // API แสดงรายรับตามช่วงวันที่
-  // .get('/api/repairRecord/dashboard', RepairRecordController.dashboard)
+  .get('/api/record/lists/:startDate/:endDate', RepairRecordController.report) // API แสดงรายงานตามช่วงวันที่
+  .get('/api/repairRecord/dashboard', RepairRecordController.dashboard)
   // .get('/api/repairRecord/incomePerMonth', RepairRecordController.incomePerMonth)
 
   // 

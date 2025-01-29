@@ -134,7 +134,8 @@ export const RepairRecordController = {
                     id: body.id
                 },
                 data: {
-                    status: "success"
+                    payDate: new Date(),
+                    status: "complete"
                 }
             }) 
             
@@ -143,7 +144,71 @@ export const RepairRecordController = {
         } catch (error) {
             return error;
         }
-    }
+    },
+    report: async ({ params }: {
+        params: {
+            startDate: string;
+            endDate: string;
+        }
+    }) => {
+        try {
+            const startDate = new Date(params.startDate);
+            const endDate = new Date(params.endDate);
 
+            startDate.setHours(0, 0, 0, 0);          // เวลา 00:00:00:000
+            endDate.setHours(23, 59, 59, 999);       // เวลา 23:59:59:999
+
+            const repairRecords = await prisma.repairRecord.findMany({
+                where: {
+                    createdAt: {
+                        gte: startDate,
+                        lte: endDate
+                    },
+                    status: "complete"
+                }
+            });
+
+            return repairRecords;
+        } catch (error) {
+            return error;
+        }
+    },
+    dashboard: async () => {
+        try {
+            const totalRepairRecord = await prisma.repairRecord.count();
+            const totalRepairRecordComplete = await prisma.repairRecord.count({
+                where: {
+                    status: "complete"
+                    
+                }
+            });
+            const totalRepairRecordNotComplete = await prisma.repairRecord.count({
+                where: {
+                    status: {
+                        not: "complete"
+                    }
+                }
+            });
+
+            const totalSuccess = await prisma.repairRecord.count({
+                where: {
+                    status: {
+                        not: "complete"
+                    }
+                }
+            })
+            return { 
+                totalRepairRecord,
+                totalRepairRecordComplete, 
+                totalRepairRecordNotComplete, 
+                totalSuccess
+            };
+        } catch (error) {
+            return error;
+        }
+       
+        
+    } 
+    
 
 }

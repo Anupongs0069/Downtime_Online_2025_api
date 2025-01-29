@@ -14,26 +14,26 @@ datasource db {
 }
 
 model User {
-  id        Int      @id() @default(autoincrement())
-  username  String   @unique
-  password  String
-  level     String   @default("user") // user, admin, engineer, leader
-  createdAt DateTime @default(now())
-  status    String   @default("active") // active, inactive
-  sectionId Int?
-  section   Section?  @relation(fields: [sectionId], references: [id])
+  id           Int            @id() @default(autoincrement())
+  username     String         @unique
+  password     String
+  level        String         @default("user") // user, admin, engineer, leader
+  createdAt    DateTime       @default(now())
+  status       String         @default("active") // active, inactive
+  sectionId    Int?
+  section      Section?       @relation(fields: [sectionId], references: [id])
   RepairRecord RepairRecord[]
 }
 
 model Device {
-  id         Int      @id @default(autoincrement())
-  name       String   @unique
-  product    String
-  family     String   
-  importDate DateTime
-  remark     String?
-  status     String   @default("active") // active, inactive
-  createdAt  DateTime @default(now())
+  id           Int            @id @default(autoincrement())
+  name         String         @unique
+  product      String
+  family       String
+  importDate   DateTime
+  remark       String?
+  status       String         @default("active") // active, inactive
+  createdAt    DateTime       @default(now())
   RepairRecord RepairRecord[]
 }
 
@@ -73,6 +73,7 @@ model RepairRecord {
   status            String    @default("active") // active, inactive
   createdAt         DateTime  @default(now())
   endJobDate        DateTime?
+  payDate           DateTime?
   imageBeforeRepair String?
   imageAfterRepair  String?
 }
